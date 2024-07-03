@@ -16,6 +16,15 @@ const config: Config = {
       backgroundPosition: {
         "top-right": "top right",
       },
+      keyframes: {
+        slideUp: {
+          from: { transform: "translateY(30px)", opacity: "0" },
+          to: { transform: "translateY(0)", opacity: "1" },
+        },
+      },
+      animation: {
+        slideUp: "slideUp 0.5s ease-out forwards",
+      },
     },
   },
   plugins: [],

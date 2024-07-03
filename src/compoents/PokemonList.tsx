@@ -1,10 +1,7 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
-import styled from "styled-components";
-import "../css/PokemonCard.css";
 
-// Pokemon 타입 정의
 export type Pokemon = {
   id: number;
   name: string;
@@ -17,7 +14,6 @@ export type Pokemon = {
   moves: { move: { name: string; korean_name?: string } }[];
 };
 
-// typeColors 객체의 타입 정의
 interface TypeColors {
   [key: string]: string;
 }
@@ -43,54 +39,6 @@ const typeColors: TypeColors = {
   fairy: "#D685AD",
 };
 
-// 스타일 컴포넌트 정의
-const PokemonListContainer = styled.div`
-  display: grid;
-  grid-template-columns: repeat(1, 1fr);
-  gap: 1rem;
-  justify-content: center;
-  width: 100%;
-  padding: 1rem;
-
-  @media (min-width: 640px) {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  @media (min-width: 768px) {
-    grid-template-columns: repeat(3, 1fr);
-  }
-
-  @media (min-width: 1024px) {
-    grid-template-columns: repeat(6, 1fr);
-  }
-
-  @media (min-width: 1300px) {
-    grid-template-columns: repeat(9, 1fr);
-  }
-`;
-
-interface PokemonCardProps {
-  pokemon: Pokemon;
-  index: number;
-}
-
-const PokemonCard = styled.div<PokemonCardProps>`
-  background-color: ${({ pokemon }) => typeColors[pokemon.types[0].type.name]};
-`;
-
-const PokemonImage = styled.img.attrs({
-  className: "pokemon-image",
-})``;
-
-const PokemonName = styled.h2.attrs({
-  className: "pokemon-name",
-})``;
-
-const PokemonId = styled.p.attrs({
-  className: "pokemon-id",
-})``;
-
-// PokemonList 컴포넌트 정의
 export default function PokemonList() {
   const [pokemons, setPokemons] = useState<Pokemon[]>([]);
   const [loading, setLoading] = useState(true);
@@ -99,7 +47,7 @@ export default function PokemonList() {
   useEffect(() => {
     async function fetchPokemons() {
       try {
-        const response = await fetch("/api/pokemons");
+        const response = await fetch("/api/pokemons/");
         const data = await response.json();
         console.log("Fetched data:", data);
         if (Array.isArray(data)) {
@@ -124,7 +72,7 @@ export default function PokemonList() {
           if (entry.isIntersecting) {
             setTimeout(() => {
               entry.target.classList.add("visible");
-            }, index * 100); // 100ms 지연 추가
+            }, index * 100);
           }
         });
       },
@@ -137,7 +85,7 @@ export default function PokemonList() {
     return () => {
       cards.forEach((card) => observer.current?.unobserve(card));
     };
-  }, [pokemons]);
+  }, [pokemons]); /*카드가 보였는지 안보였는지 체크하는거*/
 
   if (loading) {
     return <div>Loading...</div>;
@@ -148,22 +96,25 @@ export default function PokemonList() {
   }
 
   return (
-    <PokemonListContainer>
-      {pokemons.map((pokemon, index) => (
-        <PokemonCard
+    <div
+      className="grid grid-cols-4 gap-4 justify-center w-full p-4
+    "
+    >
+      {pokemons.map((pokemon) => (
+        <div
           key={pokemon.id}
-          pokemon={pokemon}
-          index={index}
           className="pokemon-card"
+          style={{ backgroundColor: typeColors[pokemon.types[0].type.name] }}
         >
-          <PokemonImage
+          <img
             src={pokemon.sprites.front_default}
             alt={pokemon.name}
+            className="pokemon-image"
           />
-          <PokemonName>{pokemon.korean_name}</PokemonName>
-          <PokemonId>도감번호: {pokemon.id}</PokemonId>
-        </PokemonCard>
+          <h2 className="pokemon-name">{pokemon.korean_name}</h2>
+          <p className="pokemon-id">도감번호: {pokemon.id}</p>
+        </div>
       ))}
-    </PokemonListContainer>
+    </div>
   );
 }
