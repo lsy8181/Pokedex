@@ -1,6 +1,7 @@
 "use client";
-
 import { useEffect, useState, useRef } from "react";
+import { useRouter } from "next/navigation";
+import "../css/PokemonCard.css";
 
 export type Pokemon = {
   id: number;
@@ -43,6 +44,7 @@ export default function PokemonList() {
   const [pokemons, setPokemons] = useState<Pokemon[]>([]);
   const [loading, setLoading] = useState(true);
   const observer = useRef<IntersectionObserver>();
+  const router = useRouter();
 
   useEffect(() => {
     async function fetchPokemons() {
@@ -63,7 +65,7 @@ export default function PokemonList() {
     }
 
     fetchPokemons();
-  }, []);
+  }, []); /*내용 패치서 가저오기*/
 
   useEffect(() => {
     observer.current = new IntersectionObserver(
@@ -96,15 +98,13 @@ export default function PokemonList() {
   }
 
   return (
-    <div
-      className="grid grid-cols-4 gap-4 justify-center w-full p-4
-    "
-    >
+    <div className="grid grid-cols-4 gap-4 justify-center w-full p-4">
       {pokemons.map((pokemon) => (
         <div
           key={pokemon.id}
           className="pokemon-card"
           style={{ backgroundColor: typeColors[pokemon.types[0].type.name] }}
+          onClick={() => router.push(`/pokemon/${pokemon.id}`)}
         >
           <img
             src={pokemon.sprites.front_default}
