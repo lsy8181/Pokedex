@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState, useRef } from "react";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
+import Image from "next/image";
 import "../css/PokemonCard.css";
 
 export type Pokemon = {
@@ -44,7 +45,6 @@ export default function PokemonList() {
   const [pokemons, setPokemons] = useState<Pokemon[]>([]);
   const [loading, setLoading] = useState(true);
   const observer = useRef<IntersectionObserver>();
-  const router = useRouter();
 
   useEffect(() => {
     async function fetchPokemons() {
@@ -65,7 +65,7 @@ export default function PokemonList() {
     }
 
     fetchPokemons();
-  }, []); /*내용 패치서 가저오기*/
+  }, []);
 
   useEffect(() => {
     observer.current = new IntersectionObserver(
@@ -87,7 +87,7 @@ export default function PokemonList() {
     return () => {
       cards.forEach((card) => observer.current?.unobserve(card));
     };
-  }, [pokemons]); /*카드가 보였는지 안보였는지 체크하는거*/
+  }, [pokemons]);
 
   if (loading) {
     return <div>Loading...</div>;
@@ -100,20 +100,21 @@ export default function PokemonList() {
   return (
     <div className="grid grid-cols-4 gap-4 justify-center w-full p-4">
       {pokemons.map((pokemon) => (
-        <div
-          key={pokemon.id}
-          className="pokemon-card"
-          style={{ backgroundColor: typeColors[pokemon.types[0].type.name] }}
-          onClick={() => router.push(`/pokemon/${pokemon.id}`)}
-        >
-          <img
-            src={pokemon.sprites.front_default}
-            alt={pokemon.name}
-            className="pokemon-image"
-          />
-          <h2 className="pokemon-name">{pokemon.korean_name}</h2>
-          <p className="pokemon-id">도감번호: {pokemon.id}</p>
-        </div>
+        <Link key={pokemon.id} href={`/pokemon/${pokemon.id}`} passHref>
+          <div
+            className="pokemon-card"
+            style={{ backgroundColor: typeColors[pokemon.types[0].type.name] }}
+          >
+            <Image
+              src={pokemon.sprites.front_default}
+              alt={pokemon.name}
+              width={100}
+              height={100}
+            />
+            <h2 className="pokemon-name">{pokemon.korean_name}</h2>
+            <p className="pokemon-id">도감번호: {pokemon.id}</p>
+          </div>
+        </Link>
       ))}
     </div>
   );

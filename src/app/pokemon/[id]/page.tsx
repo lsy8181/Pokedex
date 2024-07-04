@@ -1,6 +1,7 @@
 import { fetchPokemonData } from "@/apis/pokemon";
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 
 const typeColors: { [key: string]: string } = {
   normal: "#cac9b7",
@@ -38,9 +39,11 @@ const PokemonDetailPage = async ({ params }: { params: { id: string } }) => {
             뒤로가기
           </Link>
         </div>
-        <img
+        <Image
           src={pokemonData.sprites.front_default}
           alt={pokemonData.korean_name}
+          width={128}
+          height={128}
           className="w-32 h-32 mx-auto mb-4"
         />
         <div className="flex flex-wrap gap-3 mb-4">
