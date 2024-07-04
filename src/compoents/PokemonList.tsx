@@ -2,7 +2,6 @@
 import { useEffect, useState, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import "../css/PokemonCard.css";
 
 export type Pokemon = {
   id: number;
@@ -98,11 +97,11 @@ export default function PokemonList() {
   }
 
   return (
-    <div className="grid grid-cols-4 gap-4 justify-center w-full p-4">
+    <div className="grid grid-cols-9 gap-4 justify-center w-full p-4">
       {pokemons.map((pokemon) => (
         <Link key={pokemon.id} href={`/pokemon/${pokemon.id}`} passHref>
           <div
-            className="pokemon-card"
+            className="flex flex-col items-center p-4 rounded-lg "
             style={{ backgroundColor: typeColors[pokemon.types[0].type.name] }}
           >
             <Image
@@ -111,8 +110,8 @@ export default function PokemonList() {
               width={100}
               height={100}
             />
-            <h2 className="pokemon-name">{pokemon.korean_name}</h2>
-            <p className="pokemon-id">도감번호: {pokemon.id}</p>
+            <h2 className="text-lg mb-1">{pokemon.korean_name}</h2>
+            <p className=" text-sm mb-2">도감번호: {pokemon.id}</p>
           </div>
         </Link>
       ))}
