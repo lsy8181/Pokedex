@@ -1,4 +1,3 @@
-물론입니다! 예쁘고 한눈에 보기 쉽게 서식을 적용한 README 파일은 다음과 같습니다:
 
 ````markdown
 # Next.js Pokémon Encyclopedia
