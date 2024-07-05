@@ -1,3 +1,8 @@
+물론입니다! 예쁘고 한눈에 보기 쉽게 서식을 적용한 README 파일은 다음과 같습니다:
+
+````markdown
+# Next.js Pokémon Encyclopedia
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
@@ -13,14 +18,27 @@ pnpm dev
 # or
 bun dev
 ```
+````
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 📖 Project Description
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+해당 사이트는 **1세대 포켓몬**을 볼 수 있는 도감을 만들었습니다. 포켓몬 카드를 클릭하면 해당 포켓몬의 상세 내용을 볼 수 있습니다.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+### 🛠️ 사용 기술 스택
 
-## Learn More
+- **React**
+- **TypeScript**
+- **Tailwind CSS**
+- **Framer Motion API**
+- **포켓몬 API**
+
+## 🎨 Features
+
+- **포켓몬 도감**: 1세대 포켓몬의 리스트를 볼 수 있습니다.
+- **포켓몬 상세 정보**: 포켓몬 카드를 클릭하면 상세 정보를 확인할 수 있습니다.
+- **애니메이션 효과**: Framer Motion을 사용한 부드러운 애니메이션 효과가 적용되었습니다.
+
+## 🌐 Learn More
 
 To learn more about Next.js, take a look at the following resources:
 
@@ -29,7 +47,7 @@ To learn more about Next.js, take a look at the following resources:
 
 You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
 
-## Deploy on Vercel
+## 🚀 Deploy on Vercel
 
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
