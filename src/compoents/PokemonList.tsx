@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Pokemon } from "@/types/Pokemon";
 import { typeColors } from "@/types/typeColors";
-import { motion, useScroll } from "framer-motion";
+import { motion } from "framer-motion";
 
 export default function PokemonList() {
   const [pokemons, setPokemons] = useState<Pokemon[]>([]);
@@ -38,20 +38,6 @@ export default function PokemonList() {
   if (!pokemons || pokemons.length === 0) {
     return <div>No Pokémon found.</div>;
   }
-
-  const containerVariants = {
-    out: {
-      y: 300,
-    },
-    in: {
-      y: 0,
-      transition: {
-        duration: 0.5,
-        delayChildren: 0.5,
-        staggerChildren: 0.2,
-      },
-    },
-  };
 
   return (
     <div className="grid grid-cols-9 gap-4 justify-center w-full p-4">
