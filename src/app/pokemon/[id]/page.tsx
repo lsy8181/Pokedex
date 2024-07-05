@@ -2,27 +2,7 @@ import { fetchPokemonData } from "@/apis/pokemon";
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-
-const typeColors: { [key: string]: string } = {
-  normal: "#cac9b7",
-  fire: "#f36358",
-  water: "#a3bef7",
-  electric: "#e9d45f",
-  grass: "#6ec57a",
-  ice: "#96D9D6",
-  fighting: "#97312d",
-  poison: "#c08ebf",
-  ground: "#d69c5a",
-  flying: "#8fa6f3",
-  psychic: "#e986c0",
-  bug: "#bcc76a",
-  rock: "#B6A136",
-  ghost: "#786b8a",
-  dragon: "#a08ad8",
-  dark: "#644670",
-  steel: "#B7B7CE",
-  fairy: "#D685AD",
-};
+import { typeColors } from "@/types/typeColors";
 
 const PokemonDetailPage = async ({ params }: { params: { id: string } }) => {
   const pokemonData = await fetchPokemonData(params.id);
@@ -61,7 +41,9 @@ const PokemonDetailPage = async ({ params }: { params: { id: string } }) => {
               </li>
             ))}
           </ul>
-          <h2 className="text-xl font-semibold">능력:</h2>
+        </div>
+        <div className="flex flex-wrap gap-3 mb-4">
+          <h2 className="text-xl font-semibold ">특성:</h2>
           <ul className="flex flex-wrap gap-2">
             {pokemonData.abilities.map((abilityInfo: any) => (
               <li key={abilityInfo.ability.name} className="text-lg">
@@ -72,10 +54,8 @@ const PokemonDetailPage = async ({ params }: { params: { id: string } }) => {
         </div>
         <div className="mb-4">
           <h2 className="text-xl font-semibold">신장 및 체중:</h2>
-          <ul className="flex flex-wrap gap-2">
-            <li className="text-lg ">신장: {pokemonData.height} cm</li>
-            <li className="text-lg">체중: {pokemonData.weight} g</li>
-          </ul>
+          <p className="text-lg">{`신장: ${pokemonData.height / 10} m`}</p>
+          <p className="text-lg">{`체중: ${pokemonData.weight / 10} kg`}</p>
         </div>
         <div className="mb-4">
           <h2 className="text-xl font-semibold">능력치:</h2>

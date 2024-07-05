@@ -15,7 +15,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={inter.className}>
-      <body className="bg-[#f8f5f2] bg-no-repeat bg-top-right bg-[url('/img/pokeball.png')] bg-[length:25%] font-ramche">
+      <body className=" bg-[#f8f5f2] bg-no-repeat bg-top-right bg-[url('/img/pokeball.png')] bg-[length:25%] font-ramche">
         {children}
       </body>
     </html>
