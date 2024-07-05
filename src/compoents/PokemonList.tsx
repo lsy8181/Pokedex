@@ -1,50 +1,14 @@
 "use client";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import "../css/PokemonCard.css";
-
-export type Pokemon = {
-  id: number;
-  name: string;
-  korean_name: string;
-  height: number;
-  weight: number;
-  sprites: { front_default: string };
-  types: { type: { name: string; korean_name?: string } }[];
-  abilities: { ability: { name: string; korean_name?: string } }[];
-  moves: { move: { name: string; korean_name?: string } }[];
-};
-
-interface TypeColors {
-  [key: string]: string;
-}
-
-const typeColors: TypeColors = {
-  normal: "#dad9cf",
-  fire: "#f36358",
-  water: "#a3bef7",
-  electric: "#fce97d",
-  grass: "#8feb9c",
-  ice: "#96D9D6",
-  fighting: "#97312d",
-  poison: "#c08ebf",
-  ground: "#d69c5a",
-  flying: "#8fa6f3",
-  psychic: "#e986c0",
-  bug: "#bcc76a",
-  rock: "#B6A136",
-  ghost: "#786b8a",
-  dragon: "#a08ad8",
-  dark: "#644670",
-  steel: "#B7B7CE",
-  fairy: "#D685AD",
-};
+import { Pokemon } from "@/types/Pokemon";
+import { typeColors } from "@/types/typeColors";
+import { motion, useScroll } from "framer-motion";
 
 export default function PokemonList() {
   const [pokemons, setPokemons] = useState<Pokemon[]>([]);
   const [loading, setLoading] = useState(true);
-  const observer = useRef<IntersectionObserver>();
 
   useEffect(() => {
     async function fetchPokemons() {
@@ -67,28 +31,6 @@ export default function PokemonList() {
     fetchPokemons();
   }, []);
 
-  useEffect(() => {
-    observer.current = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry, index) => {
-          if (entry.isIntersecting) {
-            setTimeout(() => {
-              entry.target.classList.add("visible");
-            }, index * 100);
-          }
-        });
-      },
-      { threshold: 0.1 }
-    );
-
-    const cards = document.querySelectorAll(".pokemon-card");
-    cards.forEach((card) => observer.current?.observe(card));
-
-    return () => {
-      cards.forEach((card) => observer.current?.unobserve(card));
-    };
-  }, [pokemons]);
-
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -97,23 +39,61 @@ export default function PokemonList() {
     return <div>No Pokémon found.</div>;
   }
 
+  const containerVariants = {
+    out: {
+      y: 300,
+    },
+    in: {
+      y: 0,
+      transition: {
+        duration: 0.5,
+        delayChildren: 0.5,
+        staggerChildren: 0.2,
+      },
+    },
+  };
+
   return (
-    <div className="grid grid-cols-4 gap-4 justify-center w-full p-4">
+    <div className="grid grid-cols-9 gap-4 justify-center w-full p-4">
       {pokemons.map((pokemon) => (
         <Link key={pokemon.id} href={`/pokemon/${pokemon.id}`} passHref>
-          <div
-            className="pokemon-card"
-            style={{ backgroundColor: typeColors[pokemon.types[0].type.name] }}
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{
+              opacity: 1,
+              y: 0,
+            }}
+            viewport={{
+              once: false,
+            }}
+            transition={{
+              ease: "easeInOut",
+              duration: 1,
+              y: { duration: 1 },
+            }}
           >
-            <Image
-              src={pokemon.sprites.front_default}
-              alt={pokemon.name}
-              width={100}
-              height={100}
-            />
-            <h2 className="pokemon-name">{pokemon.korean_name}</h2>
-            <p className="pokemon-id">도감번호: {pokemon.id}</p>
-          </div>
+            <motion.button
+              initial={{ scale: 1 }}
+              whileTap={{ scale: 0.5 }}
+              whileHover={{ scale: 1.25 }}
+            >
+              <div
+                className="flex flex-col items-center p-4 rounded-lg shadow-extra-dark"
+                style={{
+                  backgroundColor: typeColors[pokemon.types[0].type.name],
+                }}
+              >
+                <Image
+                  src={pokemon.sprites.front_default}
+                  alt={pokemon.name}
+                  width={100}
+                  height={100}
+                />
+                <h2 className="text-lg mb-1">{pokemon.korean_name}</h2>
+                <p className="text-sm mb-2">도감번호: {pokemon.id}</p>
+              </div>
+            </motion.button>
+          </motion.div>
         </Link>
       ))}
     </div>
